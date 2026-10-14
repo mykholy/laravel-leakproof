@@ -14,14 +14,14 @@ PHP 8.2+, Laravel 12 / 13. Laravel 13 itself requires PHP 8.3+.
 
 ## Install
 
-Once indexed by Packagist:
-
 ```bash
 composer require --dev mykholy/laravel-leakproof
 php artisan vendor:publish --tag=leakproof-config
 ```
 
 No migrations, tables, scheduled jobs, or external services are required. Auto-discovery registers the provider.
+
+`--dev` is recommended for feature-test assertions. If you intentionally enable the middleware in a deployed environment, install without `--dev` so the package is present there.
 
 ## Feature tests
 
@@ -101,7 +101,7 @@ if (! $report->passed()) {
 - Bounded traversal: default max depth 32, 50,000 nodes, and 100 findings.
 - JSON input limit: default 2 MiB.
 - Exceeding limits makes an inspection **inconclusive**, not successful.
-- Non-identifier, very long, or credential-like object keys are redacted from diagnostic paths.
+- Only known structural/credential names are displayed in diagnostic paths; all other object keys are replaced by `"<dynamic-key>"` to avoid exposing identifiers or personal information.
 - High-confidence value patterns include private-key headers and selected live credential prefixes.
 - This does **not** prove an API is private. Unknown secret formats, encoded values, and authorization mistakes may be missed.
 
