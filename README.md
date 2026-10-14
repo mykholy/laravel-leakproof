@@ -84,11 +84,22 @@ The wildcard matches **one** segment. Paths are exact: an allow rule exempts onl
 
 ## Fixture scanning
 
+Run these commands **inside your Laravel application**. The scanner accepts a local JSON file; create an illustrative fixture first:
+
 ```bash
-php artisan leakproof:scan tests/Fixtures/user-response.json
-php artisan leakproof:scan tests/Fixtures/login-response.json --allow=data.access_token
-php artisan leakproof:scan tests/Fixtures/user-response.json --format=json
+printf '%s\n' '{"data":{"user":{"name":"Example User","password":"example-only"}}}' > leakproof-sample.json
+php artisan leakproof:scan leakproof-sample.json
+php artisan leakproof:scan leakproof-sample.json --format=json
 ```
+
+Both scans should report `$.data.user.password` and return exit code **1**, intentionally failing CI. The test value is synthetic; don't use real credentials in fixtures. For a clean example:
+
+```bash
+printf '%s\n' '{"data":{"user":{"name":"Example User"}}}' > leakproof-safe.json
+php artisan leakproof:scan leakproof-safe.json
+```
+
+The safe example returns exit code **0**. You can explicitly allow a reviewed field with `--allow=data.access_token` when scanning an intentional login response.
 
 Exit codes: 0 clean; 1 finding or incomplete traversal; 2 invalid/unreadable input. The scanner reads local files only. JSON output contains sanitized paths and rules, never original values.
 
@@ -134,8 +145,9 @@ if (! $report->passed()) {
 - Only known structural/credential names are displayed in diagnostic paths; all other object keys are replaced by `"<dynamic-key>"` to avoid exposing identifiers or personal information.
 - High-confidence value patterns include private-key headers and selected live credential prefixes.
 - This does **not** prove an API is private. Unknown secret formats, encoded values, and authorization mistakes may be missed.
+- Personal information such as emails, phone numbers, IDs or addresses is **not automatically treated as a secret**; enforce authorization and data minimization separately.
 
-See [Security considerations](docs/SECURITY.md).
+See the [Security policy](SECURITY.md) and [Security considerations](docs/SECURITY.md).
 
 ## Development
 
@@ -147,7 +159,7 @@ composer format-check
 composer smoke
 ```
 
-CI checks supported PHP/Laravel combinations. See [Contributing](CONTRIBUTING.md), [Security considerations](docs/SECURITY.md), [Changelog](CHANGELOG.md), and [GitHub Issues](https://github.com/mykholy/laravel-leakproof/issues).
+CI checks supported PHP/Laravel combinations. See [Contributing](CONTRIBUTING.md), [Security policy](SECURITY.md), [Changelog](CHANGELOG.md), and [GitHub Issues](https://github.com/mykholy/laravel-leakproof/issues).
 
 ## License
 
