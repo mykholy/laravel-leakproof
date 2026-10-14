@@ -4,7 +4,7 @@ LeakProof detects accidental JSON serialization leaks. It does not replace autho
 
 Invalid input and traversal budget exhaustion never count as a clean inspection. Middleware is opt-in and off by default. Findings contain sanitized paths and rule names, not response values.
 
-Non-identifier, credential-shaped, and very long JSON keys are redacted in diagnostic paths. Simple identifiers may still be user-controlled; avoid dynamically named sensitive fields.
+Only an intentionally small allowlist of structural and sensitive field names is displayed in diagnostic paths. Other object keys, including short identifier-shaped keys, are redacted. Names on the display allowlist can still be user-controlled, so do not treat diagnostic paths as suitable for unrestricted public logging.
 
 Credential value detection targets only selected high-confidence formats. Unknown or encoded secret formats, data embedded in text, and authorization issues can remain undetected.
 
