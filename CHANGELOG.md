@@ -8,7 +8,7 @@
 
 ## Unreleased
 
-- Detect selected OpenAI, Anthropic, Gemini/Google, Hugging Face, Groq, Replicate, Pinecone and Perplexity API key formats within JSON strings.
+- Detect selected OpenAI, Anthropic, Gemini/Google, Hugging Face, Groq, Replicate, Pinecone, Perplexity, OpenRouter, NVIDIA NGC and Tavily API key formats within JSON strings.
 - Identify provider-specific AI credential field names for services without reliable key prefixes.
 - Add selectable built-in value rules, regression tests, a synthetic inspection benchmark, and a consumer Laravel installation smoke test.
 - Configure Dependabot for Composer and GitHub Actions updates.
