@@ -3,3 +3,4 @@
 /tools export-ignore
 /phpunit.xml.dist export-ignore
 /phpstan.neon.dist export-ignore
+/assets export-ignore
