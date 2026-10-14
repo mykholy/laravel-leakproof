@@ -115,7 +115,7 @@ final class ValueDetector
      * Null enables every built-in rule; [] disables all value rules.
      * Unknown rule identifiers fail explicitly to avoid silent misconfiguration.
      *
-     * @param list<string>|null $enabledRules
+     * @param  list<string>|null  $enabledRules
      */
     public function __construct(?array $enabledRules = null)
     {
@@ -123,7 +123,7 @@ final class ValueDetector
 
         if ($enabledRules !== null) {
             foreach ($enabledRules as $rule) {
-                if (!in_array($rule, $allowed, true)) {
+                if (! in_array($rule, $allowed, true)) {
                     throw new InvalidArgumentException('Unknown LeakProof value detection rule.');
                 }
             }
@@ -147,7 +147,7 @@ final class ValueDetector
         }
 
         foreach (self::PATTERNS as $rule => $pattern) {
-            if (!$this->enabled($rule) || !str_contains($value, $pattern['marker'])) {
+            if (! $this->enabled($rule) || ! str_contains($value, $pattern['marker'])) {
                 continue;
             }
 
