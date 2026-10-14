@@ -21,6 +21,9 @@ final class AiSecretDetectionTest extends TestCase
         yield 'OpenAI project with separators' => ['sk-proj-'.str_repeat('A', 24).'-'.str_repeat('B', 24), 'ai.openai_project_key'];
         yield 'OpenAI service' => ['sk-svcacct-'.str_repeat('C', 48), 'ai.openai_service_key'];
         yield 'OpenAI admin' => ['sk-admin-'.str_repeat('D', 48), 'ai.openai_admin_key'];
+        yield 'OpenRouter' => ['sk-or-v1-'.str_repeat('R', 48), 'ai.openrouter_key'];
+        yield 'NVIDIA NGC' => ['nvapi-'.str_repeat('S', 48), 'ai.nvidia_ngc_key'];
+        yield 'Tavily' => ['tvly-'.str_repeat('T', 40), 'ai.tavily_key'];
         yield 'Anthropic API' => ['sk-ant-api03-'.str_repeat('E', 48), 'ai.anthropic_key'];
         yield 'Anthropic admin' => ['sk-ant-admin01-'.str_repeat('F', 48), 'ai.anthropic_key'];
         yield 'Gemini / Google API' => ['AIza'.str_repeat('G', 35), 'ai.google_api_key'];
