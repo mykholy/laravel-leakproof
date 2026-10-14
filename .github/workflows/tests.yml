@@ -43,6 +43,8 @@ jobs:
         run: composer test
       - name: Standalone core smoke checks
         run: composer smoke
+      - name: Synthetic benchmark (sanity check)
+        run: php tools/benchmark.php 20
       - name: Static analysis
         run: composer analyse
       - name: Code style
