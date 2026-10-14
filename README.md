@@ -10,7 +10,7 @@ It is deliberately focused on accidental serialization leaks. It is not an autho
 
 ## Requirements
 
-PHP 8.2+, Laravel 11 / 12 / 13. Laravel 13 itself requires PHP 8.3+.
+PHP 8.2+, Laravel 12 / 13. Laravel 13 itself requires PHP 8.3+.
 
 ## Install
 

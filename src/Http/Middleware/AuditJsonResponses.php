@@ -42,7 +42,7 @@ final readonly class AuditJsonResponses
             return $response;
         }
 
-        $route = $request->route()?->getName();
+        $route = $request->route()->getName();
         $configuredPaths = $this->config->get('leakproof.allowed_paths', []);
         $allowed = is_string($route) && is_array($configuredPaths)
             ? ($configuredPaths[$route] ?? []) : [];

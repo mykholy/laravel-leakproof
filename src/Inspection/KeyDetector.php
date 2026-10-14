@@ -13,7 +13,7 @@ final class KeyDetector
     public function __construct(array $sensitiveKeys)
     {
         foreach ($sensitiveKeys as $key) {
-            if (is_string($key) && $key !== '') {
+            if ($key !== '') {
                 $this->keys[self::normalize($key)] = true;
             }
         }

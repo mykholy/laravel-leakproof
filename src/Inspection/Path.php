@@ -35,7 +35,7 @@ final class Path
     public static function allowed(array $segments, array $rules): bool
     {
         foreach ($rules as $rule) {
-            if (! is_string($rule) || $rule === '') {
+            if ($rule === '') {
                 continue;
             }
 
