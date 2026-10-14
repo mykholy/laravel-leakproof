@@ -24,6 +24,10 @@ return [
         'fireworks_api_key', 'openrouter_api_key', 'elevenlabs_api_key',
         'bedrock_secret_access_key', 'aws_secret_access_key',
         'ai_api_key', 'llm_api_key', 'inference_api_key',
+        'xai_api_key', 'grok_api_key', 'nvidia_api_key', 'nvidia_ngc_api_key',
+        'tavily_api_key', 'fal_api_key', 'voyage_api_key', 'ai21_api_key',
+        'cerebras_api_key', 'langsmith_api_key', 'langchain_api_key',
+        'weaviate_api_key', 'qdrant_api_key', 'modal_token_secret',
     ],
     'scan_secret_values' => true,
     // Null enables all built-in value rules. Use an explicit list of rule IDs
