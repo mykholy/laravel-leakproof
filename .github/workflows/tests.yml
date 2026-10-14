@@ -1,0 +1,43 @@
+name: Tests
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - php: '8.2'
+            laravel: '^11.0'
+          - php: '8.3'
+            laravel: '^12.0'
+          - php: '8.4'
+            laravel: '^13.0'
+    steps:
+      - uses: actions/checkout@v4
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php }}
+          extensions: dom, json, mbstring, sqlite3
+          coverage: none
+          tools: composer:v2
+      - name: Validate package
+        run: composer validate --strict
+      - name: Select Laravel version
+        run: composer require --dev "laravel/framework:${{ matrix.laravel }}" --no-interaction --no-progress --no-update
+      - name: Install dependencies
+        run: composer update --prefer-dist --no-interaction --no-progress --with-all-dependencies
+      - name: Unit and integration tests
+        run: composer test
+      - name: Static analysis
+        run: composer analyse
+      - name: Code style
+        run: composer format-check
