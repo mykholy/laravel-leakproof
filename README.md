@@ -20,7 +20,7 @@
   <a href="https://packagist.org/packages/mykholy/laravel-leakproof">Packagist</a>
 </p>
 
-**Laravel LeakProof** is a lightweight Laravel security testing package for spotting accidentally exposed sensitive fields in serialized **JSON API responses**. It inspects the actual response your tests receive, including nested arrays and Laravel API Resources. Built-in detection now covers selected **AI API key** formats from OpenAI, Anthropic, Gemini/Google, Hugging Face, Groq, Replicate, Pinecone, and Perplexity, plus provider-specific sensitive field names.
+**Laravel LeakProof** is a lightweight Laravel security testing package for spotting accidentally exposed sensitive fields in serialized **JSON API responses**. It inspects the actual response your tests receive, including nested arrays and Laravel API Resources. Built-in detection now covers selected **AI API key** formats from OpenAI, Anthropic, Gemini/Google, Hugging Face, Groq, Replicate, Pinecone, Perplexity, OpenRouter, NVIDIA NGC, and Tavily, plus provider-specific sensitive field names.
 
 A passing endpoint test does not necessarily mean its response is safe: changes in serialization may accidentally expose password hashes, API tokens, client secrets or recovery codes. LeakProof reports the **JSON path and detection rule**, not the credential value.
 
