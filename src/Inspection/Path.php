@@ -99,6 +99,20 @@ final class Path
         'ai_api_key' => true,
         'llm_api_key' => true,
         'inference_api_key' => true,
+        'xai_api_key' => true,
+        'grok_api_key' => true,
+        'nvidia_api_key' => true,
+        'nvidia_ngc_api_key' => true,
+        'tavily_api_key' => true,
+        'fal_api_key' => true,
+        'voyage_api_key' => true,
+        'ai21_api_key' => true,
+        'cerebras_api_key' => true,
+        'langsmith_api_key' => true,
+        'langchain_api_key' => true,
+        'weaviate_api_key' => true,
+        'qdrant_api_key' => true,
+        'modal_token_secret' => true,
     ];
 
     /** @param  list<string>  $segments */
