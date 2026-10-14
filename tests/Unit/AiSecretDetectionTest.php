@@ -40,7 +40,7 @@ final class AiSecretDetectionTest extends TestCase
     }
 
     #[DataProvider('credentialExamples')]
-    public function testDetectsSyntheticCredentialWithoutLeakingValue(string $secret, string $rule): void
+    public function test_detects_synthetic_credential_without_leaking_value(string $secret, string $rule): void
     {
         $report = (new Inspector(new KeyDetector([]), new ValueDetector))->inspect(['data' => ['note' => 'Bearer '.$secret]]);
         self::assertFalse($report->passed());
@@ -68,18 +68,18 @@ final class AiSecretDetectionTest extends TestCase
     }
 
     #[DataProvider('harmlessExamples')]
-    public function testDoesNotFlagHarmlessStrings(string $value): void
+    public function test_does_not_flag_harmless_strings(string $value): void
     {
         self::assertNull((new ValueDetector)->match($value));
     }
 
-    public function testRejectsUnknownRuleIdentifiers(): void
+    public function test_rejects_unknown_rule_identifiers(): void
     {
         $this->expectException(InvalidArgumentException::class);
         new ValueDetector(['ai.nonexistent_rule']);
     }
 
-    public function testRuleSelectionAndLegacyApiCompatibility(): void
+    public function test_rule_selection_and_legacy_api_compatibility(): void
     {
         $example = 'sk-proj-'.str_repeat('A', 48);
         self::assertNull((new ValueDetector([]))->match($example));
@@ -88,7 +88,7 @@ final class AiSecretDetectionTest extends TestCase
         self::assertContains('ai.openai_project_key', ValueDetector::supportedRules());
     }
 
-    public function testValueScanningCanBeDisabledWithoutSuppressingKeyScanning(): void
+    public function test_value_scanning_can_be_disabled_without_suppressing_key_scanning(): void
     {
         $inspector = new Inspector(new KeyDetector(['api_key']), new ValueDetector, false);
         $payload = ['public_note' => 'sk-proj-'.str_repeat('A', 48), 'api_key' => 'unused'];
@@ -98,7 +98,7 @@ final class AiSecretDetectionTest extends TestCase
         self::assertSame('field.sensitive_key', $report->findings[0]->rule);
     }
 
-    public function testScansTokenInsideNestedResponseWithSanitizedPath(): void
+    public function test_scans_token_inside_nested_response_with_sanitized_path(): void
     {
         $token = 'hf_'.str_repeat('H', 34);
         $inspector = new Inspector(new KeyDetector([]), new ValueDetector);
