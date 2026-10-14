@@ -56,7 +56,7 @@ final class InspectorTest extends TestCase
     {
         $email = 'person@example.com';
         $report = $this->inspector()->inspect(['people' => [$email => ['password' => 'hidden']]]);
-        self::assertSame('$.people["<dynamic-key>"].password', $report->findings[0]->path);
+        self::assertSame('$["<dynamic-key>"]["<dynamic-key>"].password', $report->findings[0]->path);
         self::assertStringNotContainsString($email, $report->summary());
     }
 
