@@ -1,18 +1,48 @@
-# Laravel LeakProof
+<p align="center">
+  <img src="assets/laravel-leakproof-hero.webp" alt="Laravel LeakProof — detect accidental exposure of sensitive data in Laravel JSON API responses" width="1200">
+</p>
 
-[![CI](https://github.com/mykholy/laravel-leakproof/actions/workflows/tests.yml/badge.svg)](https://github.com/mykholy/laravel-leakproof/actions/workflows/tests.yml)
+<h1 align="center">Laravel LeakProof</h1>
+<p align="center"><strong>Catch sensitive fields in real Laravel JSON API responses before deployment.</strong></p>
 
-**Detect sensitive fields in the JSON your Laravel API actually returns.**
+<p align="center">
+  <a href="https://github.com/mykholy/laravel-leakproof/actions/workflows/tests.yml"><img src="https://github.com/mykholy/laravel-leakproof/actions/workflows/tests.yml/badge.svg" alt="Test suite status"></a>
+  <a href="https://packagist.org/packages/mykholy/laravel-leakproof"><img src="https://img.shields.io/packagist/v/mykholy/laravel-leakproof?label=Packagist" alt="Latest stable Packagist version"></a>
+  <a href="https://packagist.org/packages/mykholy/laravel-leakproof"><img src="https://img.shields.io/packagist/dt/mykholy/laravel-leakproof?label=downloads" alt="Packagist downloads"></a>
+  <a href="LICENSE"><img src="https://img.shields.io/github/license/mykholy/laravel-leakproof" alt="MIT license"></a>
+</p>
 
-A feature test can pass while the response unexpectedly includes a password hash, an access token, or a private credential. LeakProof analyzes serialized JSON and reports the path and matching rule **without printing the secret value**.
+<p align="center">
+  <a href="#quick-start">Quick start</a> ·
+  <a href="#what-it-detects">Detection rules</a> ·
+  <a href="#fixture-scanning">CLI scanner</a> ·
+  <a href="#optional-staging-middleware">HTTP middleware</a> ·
+  <a href="https://packagist.org/packages/mykholy/laravel-leakproof">Packagist</a>
+</p>
 
-It is deliberately focused on accidental serialization leaks. It is not an authorization system, a static code scanner, or a substitute for Laravel API Resources and model `$hidden`.
+**Laravel LeakProof** is a lightweight Laravel security testing package for spotting accidentally exposed sensitive fields in serialized **JSON API responses**. It inspects the actual response your tests receive, including nested arrays and Laravel API Resources.
+
+A passing endpoint test does not necessarily mean its response is safe: changes in serialization may accidentally expose password hashes, API tokens, client secrets or recovery codes. LeakProof reports the **JSON path and detection rule**, not the credential value.
+
+> **Scope:** LeakProof detects selected sensitive key names and high-confidence secret patterns. It is not an authorization system, a static scanner, a response sanitizer, or a substitute for Laravel policies and model `$hidden`.
+
+## What it detects
+
+| Detection | Example | Result |
+| --- | --- | --- |
+| Sensitive JSON keys | `password`, `passwordHash`, `api_key`, `access_token` | Fails the assertion, showing the redacted field path |
+| Nested response fields | `data.users[0].password` | Reports the nested location |
+| Selected secret formats | Private-key headers, recognized live credential prefixes | Flags the matched rule without exposing the value |
+| Unexpectedly large/deep responses | Configured inspection limits exceeded | Marks inspection incomplete rather than passing |
+| Intentional login tokens | An explicitly allowed `data.access_token` | Supports exact, reviewed path exceptions |
+
+Inspection is **opt-in**: use the test assertion, scan a local JSON fixture, or explicitly add the middleware to selected routes. Middleware is off by default.
 
 ## Requirements
 
 PHP 8.2+, Laravel 12 / 13. Laravel 13 itself requires PHP 8.3+.
 
-## Install
+## Quick start
 
 ```bash
 composer require --dev mykholy/laravel-leakproof
@@ -23,7 +53,7 @@ No migrations, tables, scheduled jobs, or external services are required. Auto-d
 
 `--dev` is recommended for feature-test assertions. If you intentionally enable the middleware in a deployed environment, install without `--dev` so the package is present there.
 
-## Feature tests
+### Assert against your real API response
 
 ```php
 use Mykholy\LeakProof\Testing\Concerns\AssertsNoSensitiveData;
@@ -41,7 +71,7 @@ class UserApiTest extends TestCase
 }
 ```
 
-An accidental `password` response field generates a failure such as `$.data.user.password [field.sensitive_key]`. The field's **value is not included** in diagnostics.
+An accidental `password` response field generates a failure such as `$.data.user.password [field.sensitive_key]`. The field's **value is not included** in diagnostics. This makes the assertion suitable for protecting API contracts in PHPUnit and continuous integration.
 
 ### Narrow exceptions for intentional tokens
 
@@ -117,7 +147,7 @@ composer format-check
 composer smoke
 ```
 
-CI checks supported PHP/Laravel combinations. See [Contributing](CONTRIBUTING.md).
+CI checks supported PHP/Laravel combinations. See [Contributing](CONTRIBUTING.md), [Security considerations](docs/SECURITY.md), [Changelog](CHANGELOG.md), and [GitHub Issues](https://github.com/mykholy/laravel-leakproof/issues).
 
 ## License
 

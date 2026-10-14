@@ -1,16 +1,21 @@
 {
   "name": "mykholy/laravel-leakproof",
-  "description": "Catch sensitive data leaking into Laravel JSON API responses before deployment.",
+  "description": "Detect sensitive data leaks in Laravel JSON API responses with PHPUnit assertions, a JSON fixture scanner, and optional middleware.",
   "type": "library",
   "license": "MIT",
   "keywords": [
     "laravel",
-    "security",
-    "api",
-    "privacy",
-    "testing",
+    "laravel-package",
+    "laravel-security",
+    "api-security",
+    "json-api",
+    "security-testing",
     "sensitive-data",
-    "json"
+    "data-leak-prevention",
+    "phpunit",
+    "api-testing",
+    "privacy",
+    "php"
   ],
   "homepage": "https://github.com/mykholy/laravel-leakproof",
   "authors": [
