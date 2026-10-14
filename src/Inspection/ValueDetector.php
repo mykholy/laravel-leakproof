@@ -44,6 +44,18 @@ final class ValueDetector
             'marker' => 'sk-admin-',
             'regex' => '~(?<![A-Za-z0-9_-])sk-admin-[A-Za-z0-9_-]{20,}(?![A-Za-z0-9_-])~',
         ],
+        'ai.openrouter_key' => [
+            'marker' => 'sk-or-v1-',
+            'regex' => '~(?<![A-Za-z0-9_-])sk-or-v1-[A-Za-z0-9_-]{24,}(?![A-Za-z0-9_-])~',
+        ],
+        'ai.nvidia_ngc_key' => [
+            'marker' => 'nvapi-',
+            'regex' => '~(?<![A-Za-z0-9_-])nvapi-[A-Za-z0-9_-]{24,}(?![A-Za-z0-9_-])~',
+        ],
+        'ai.tavily_key' => [
+            'marker' => 'tvly-',
+            'regex' => '~(?<![A-Za-z0-9_-])tvly-[A-Za-z0-9_-]{24,}(?![A-Za-z0-9_-])~',
+        ],
         'ai.anthropic_key' => [
             'marker' => 'sk-ant-',
             'regex' => '~(?<![A-Za-z0-9_-])sk-ant-[A-Za-z0-9_-]{24,}(?![A-Za-z0-9_-])~',
