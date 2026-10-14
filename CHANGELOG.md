@@ -8,6 +8,13 @@
 
 ## Unreleased
 
+## 1.0.2 - 2026-10-14
+
+- Add lightweight, descriptive README hero banner and discoverability badges.
+- Improve README quick start, navigation, detection examples and package keywords.
+- Exclude marketing artwork from Composer distribution archives.
+
+
 - Sensitive JSON field and high-confidence credential pattern inspection.
 - Nested sanitized paths, scoped allowlist rules, bounded traversal.
 - Laravel feature-test assertions, local fixture scanner, opt-in HTTP middleware.
