@@ -37,6 +37,8 @@ jobs:
         run: composer update --prefer-dist --no-interaction --no-progress --with-all-dependencies
       - name: Unit and integration tests
         run: composer test
+      - name: Standalone core smoke checks
+        run: composer smoke
       - name: Static analysis
         run: composer analyse
       - name: Code style

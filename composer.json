@@ -22,6 +22,7 @@
   ],
   "require": {
     "php": "^8.2",
+    "ext-ctype": "*",
     "ext-json": "*",
     "illuminate/console": "^11.0 || ^12.0 || ^13.0",
     "illuminate/contracts": "^11.0 || ^12.0 || ^13.0",
