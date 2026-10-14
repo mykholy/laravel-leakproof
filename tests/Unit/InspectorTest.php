@@ -56,8 +56,25 @@ final class InspectorTest extends TestCase
     {
         $email = 'person@example.com';
         $report = $this->inspector()->inspect(['people' => [$email => ['password' => 'hidden']]]);
-        self::assertSame('$.people["<dynamic-key>"].password', $report->findings[0]->path);
+        self::assertSame('$["<dynamic-key>"]["<dynamic-key>"].password', $report->findings[0]->path);
         self::assertStringNotContainsString($email, $report->summary());
+    }
+
+    public function test_identifier_shaped_dynamic_keys_are_redacted(): void
+    {
+        $identifier = 'AhmedNationalId123456789';
+        $report = $this->inspector()->inspect(['data' => [$identifier => ['password' => 'hidden']]]);
+
+        self::assertSame('$.data["<dynamic-key>"].password', $report->findings[0]->path);
+        self::assertStringNotContainsString($identifier, $report->summary());
+        self::assertStringNotContainsString('hidden', json_encode($report, JSON_THROW_ON_ERROR));
+    }
+
+    public function test_unknown_plain_word_object_keys_are_redacted(): void
+    {
+        $report = $this->inspector()->inspect(['people' => ['johnsmith' => ['api_key' => 'hidden']]]);
+
+        self::assertSame('$["<dynamic-key>"]["<dynamic-key>"].api_key', $report->findings[0]->path);
     }
 
     public function test_normalized_key_names_and_no_fuzzy_matches(): void
