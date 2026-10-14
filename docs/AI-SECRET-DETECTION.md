@@ -9,6 +9,9 @@ LeakProof detects **selected credential formats in JSON string values**, plus **
 | OpenAI project | `ai.openai_project_key` | `sk-proj-` prefix |
 | OpenAI service account | `ai.openai_service_key` | `sk-svcacct-` prefix |
 | OpenAI admin | `ai.openai_admin_key` | `sk-admin-` prefix |
+| OpenRouter | `ai.openrouter_key` | `sk-or-v1-` prefix |
+| NVIDIA NGC | `ai.nvidia_ngc_key` | `nvapi-` prefix |
+| Tavily | `ai.tavily_key` | `tvly-` prefix |
 | Anthropic | `ai.anthropic_key` | `sk-ant-` prefix |
 | Google AI Studio / Gemini (also other Google APIs) | `ai.google_api_key` | `AIza` and expected length |
 | Hugging Face | `ai.huggingface_token` | `hf_` prefix |
@@ -86,3 +89,5 @@ LeakProof **does not automatically classify all personal information**, discover
 - Middleware remains opt-in and **off** by default.
 
 Tokens and prefix formats change. Please report missing formats with **synthetic test vectors**, never live credentials.
+
+Vendor formats evolve; keep this table and regression tests updated when a provider changes its issuance format.
