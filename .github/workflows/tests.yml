@@ -42,4 +42,6 @@ jobs:
       - name: Static analysis
         run: composer analyse
       - name: Code style
-        run: composer format-check
+        run: |
+          composer format
+          git diff --exit-code -- src tests tools
