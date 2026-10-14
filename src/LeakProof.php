@@ -13,8 +13,8 @@ final readonly class LeakProof
     public function __construct(private Inspector $inspector) {}
 
     /**
-     * @param array<array-key, mixed> $payload
-     * @param list<string> $allowedPaths
+     * @param  array<array-key, mixed>  $payload
+     * @param  list<string>  $allowedPaths
      */
     public function inspect(array $payload, array $allowedPaths = []): Report
     {
@@ -22,8 +22,8 @@ final readonly class LeakProof
     }
 
     /**
-     * @param array<array-key, mixed> $payload
-     * @param list<string> $allowedPaths
+     * @param  array<array-key, mixed>  $payload
+     * @param  list<string>  $allowedPaths
      */
     public function assertSafe(array $payload, array $allowedPaths = []): void
     {

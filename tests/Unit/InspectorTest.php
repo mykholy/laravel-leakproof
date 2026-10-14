@@ -16,12 +16,12 @@ final class InspectorTest extends TestCase
         return new Inspector(new KeyDetector(['password', 'access_token', 'api_key']), new ValueDetector, true, $maxDepth, $maxNodes, $maxFindings);
     }
 
-    public function testSafeResponsePasses(): void
+    public function test_safe_response_passes(): void
     {
         self::assertTrue($this->inspector()->inspect(['data' => [['name' => 'Alice']]])->passed());
     }
 
-    public function testNestedFieldsAndCamelCaseAreFound(): void
+    public function test_nested_fields_and_camel_case_are_found(): void
     {
         $report = $this->inspector()->inspect(['data' => [['password' => 'hidden'], ['accessToken' => 'hidden']]]);
         self::assertFalse($report->passed());
@@ -30,21 +30,21 @@ final class InspectorTest extends TestCase
         self::assertStringNotContainsString('hidden', json_encode($report, JSON_THROW_ON_ERROR));
     }
 
-    public function testExactWildcardAllowlistDoesNotHideOtherFields(): void
+    public function test_exact_wildcard_allowlist_does_not_hide_other_fields(): void
     {
         $report = $this->inspector()->inspect(['data' => [['access_token' => 'ok', 'password' => 'hidden']]], ['data.*.access_token']);
         self::assertCount(1, $report->findings);
         self::assertSame('$.data[0].password', $report->findings[0]->path);
     }
 
-    public function testTraversalLimitsAreInconclusive(): void
+    public function test_traversal_limits_are_inconclusive(): void
     {
         self::assertTrue($this->inspector(maxNodes: 1)->inspect(['a' => 1, 'password' => 'hidden'])->truncated);
         self::assertTrue($this->inspector(maxDepth: 1)->inspect(['a' => ['b' => ['password' => 'hidden']]])->truncated);
         self::assertTrue($this->inspector(maxFindings: 1)->inspect(['password' => 'hidden', 'access_token' => 'hidden'])->truncated);
     }
 
-    public function testSecretFormatsAreDetectedWithoutExposingValues(): void
+    public function test_secret_formats_are_detected_without_exposing_values(): void
     {
         $secret = 'sk_live_'.str_repeat('Z', 24);
         $report = $this->inspector()->inspect(['note' => $secret]);
@@ -52,7 +52,7 @@ final class InspectorTest extends TestCase
         self::assertStringNotContainsString($secret, $report->summary());
     }
 
-    public function testDynamicKeysAreRedacted(): void
+    public function test_dynamic_keys_are_redacted(): void
     {
         $email = 'person@example.com';
         $report = $this->inspector()->inspect(['people' => [$email => ['password' => 'hidden']]]);
@@ -60,7 +60,7 @@ final class InspectorTest extends TestCase
         self::assertStringNotContainsString($email, $report->summary());
     }
 
-    public function testNormalizedKeyNamesAndNoFuzzyMatches(): void
+    public function test_normalized_key_names_and_no_fuzzy_matches(): void
     {
         self::assertSame('$.APIKey', $this->inspector()->inspect(['APIKey' => 'hidden'])->findings[0]->path);
         self::assertTrue($this->inspector()->inspect(['password_hint' => 'public'])->passed());

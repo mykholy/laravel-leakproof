@@ -10,25 +10,25 @@ use PHPUnit\Framework\TestCase;
 
 final class JsonPayloadTest extends TestCase
 {
-    public function testDecodesArraysAndObjects(): void
+    public function test_decodes_arrays_and_objects(): void
     {
         self::assertSame(['ok' => true], JsonPayload::decode('{"ok":true}'));
         self::assertSame([1, 2], JsonPayload::decode('[1,2]'));
     }
 
-    public function testInvalidJsonIsRejected(): void
+    public function test_invalid_json_is_rejected(): void
     {
         $this->expectException(InvalidArgumentException::class);
         JsonPayload::decode('{broken');
     }
 
-    public function testOversizedJsonIsRejected(): void
+    public function test_oversized_json_is_rejected(): void
     {
         $this->expectException(InvalidArgumentException::class);
         JsonPayload::decode('{"data":"too big"}', 5);
     }
 
-    public function testPrimitiveRootIsRejected(): void
+    public function test_primitive_root_is_rejected(): void
     {
         $this->expectException(InvalidArgumentException::class);
         JsonPayload::decode('null');

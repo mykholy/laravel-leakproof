@@ -14,7 +14,7 @@ final class ScanCommandTest extends TestCase
         return [LeakProofServiceProvider::class];
     }
 
-    public function testSafeFixturePasses(): void
+    public function test_safe_fixture_passes(): void
     {
         $file = $this->fixture('{"data":{"name":"Alice"}}');
         try {
@@ -24,7 +24,7 @@ final class ScanCommandTest extends TestCase
         }
     }
 
-    public function testSecretFixtureFails(): void
+    public function test_secret_fixture_fails(): void
     {
         $file = $this->fixture('{"data":{"password":"never-print"}}');
         try {
@@ -34,7 +34,7 @@ final class ScanCommandTest extends TestCase
         }
     }
 
-    public function testSpecificAllowRulesPass(): void
+    public function test_specific_allow_rules_pass(): void
     {
         $file = $this->fixture('{"data":{"access_token":"token"}}');
         try {
@@ -44,7 +44,7 @@ final class ScanCommandTest extends TestCase
         }
     }
 
-    public function testInvalidFixtureReturnsInputError(): void
+    public function test_invalid_fixture_returns_input_error(): void
     {
         $file = $this->fixture('{broken');
         try {

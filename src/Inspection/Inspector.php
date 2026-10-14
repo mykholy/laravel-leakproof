@@ -23,8 +23,9 @@ final readonly class Inspector
 
     /**
      * Inspect a decoded JSON payload, without retaining the original values.
-     * @param array<array-key, mixed> $payload
-     * @param list<string> $allowedPaths
+     *
+     * @param  array<array-key, mixed>  $payload
+     * @param  list<string>  $allowedPaths
      */
     public function inspect(array $payload, array $allowedPaths = []): Report
     {
@@ -44,7 +45,7 @@ final readonly class Inspector
                     break 2;
                 }
 
-                ++$visited;
+                $visited++;
                 $path = [...$item['path'], (string) $key];
 
                 if (Path::allowed($path, $allowedPaths)) {

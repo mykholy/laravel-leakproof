@@ -13,7 +13,8 @@ trait AssertsNoSensitiveData
 {
     /**
      * Fail this feature test when the response contains sensitive fields.
-     * @param list<string> $allowedPaths
+     *
+     * @param  list<string>  $allowedPaths
      */
     public function assertNoSensitiveData(TestResponse $response, array $allowedPaths = []): void
     {

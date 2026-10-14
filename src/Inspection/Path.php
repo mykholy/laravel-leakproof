@@ -29,8 +29,9 @@ final class Path
 
     /**
      * A dotted allow rule may use * to match exactly one path segment.
-     * @param list<string> $segments
-     * @param list<string> $rules
+     *
+     * @param  list<string>  $segments
+     * @param  list<string>  $rules
      */
     public static function allowed(array $segments, array $rules): bool
     {

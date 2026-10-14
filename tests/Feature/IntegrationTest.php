@@ -10,6 +10,7 @@ use Mykholy\LeakProof\Exceptions\SensitiveDataDetected;
 use Mykholy\LeakProof\LeakProofServiceProvider;
 use Mykholy\LeakProof\Testing\Concerns\AssertsNoSensitiveData;
 use Orchestra\Testbench\TestCase;
+use PHPUnit\Framework\AssertionFailedError;
 
 final class IntegrationTest extends TestCase
 {
@@ -29,24 +30,24 @@ final class IntegrationTest extends TestCase
         Route::middleware('leakproof')->get('/login', static fn () => response()->json(['data' => ['access_token' => 'token']]))->name('login');
     }
 
-    public function testMiddlewareDisabledByDefault(): void
+    public function test_middleware_disabled_by_default(): void
     {
         $this->getJson('/leaky')->assertOk();
     }
 
-    public function testFeatureAssertionsDetectLeaks(): void
+    public function test_feature_assertions_detect_leaks(): void
     {
         $this->assertNoSensitiveData($this->getJson('/safe'));
-        $this->expectException(\PHPUnit\Framework\AssertionFailedError::class);
+        $this->expectException(AssertionFailedError::class);
         $this->assertNoSensitiveData($this->getJson('/leaky'));
     }
 
-    public function testExactAllowlistWorks(): void
+    public function test_exact_allowlist_works(): void
     {
         $this->assertNoSensitiveData($this->getJson('/login'), ['data.access_token']);
     }
 
-    public function testReportModeDoesNotChangeResponses(): void
+    public function test_report_mode_does_not_change_responses(): void
     {
         config()->set('leakproof.mode', 'report');
         Log::spy();
@@ -54,14 +55,14 @@ final class IntegrationTest extends TestCase
         Log::shouldHaveReceived('warning')->once();
     }
 
-    public function testBlockModeThrows(): void
+    public function test_block_mode_throws(): void
     {
         config()->set('leakproof.mode', 'block');
         $this->expectException(SensitiveDataDetected::class);
         $this->withoutExceptionHandling()->getJson('/leaky');
     }
 
-    public function testNamedRouteAllowlistWorks(): void
+    public function test_named_route_allowlist_works(): void
     {
         config()->set('leakproof.mode', 'block');
         config()->set('leakproof.allowed_paths', ['login' => ['data.access_token']]);

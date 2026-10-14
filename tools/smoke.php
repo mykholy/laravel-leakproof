@@ -18,7 +18,7 @@ use Mykholy\LeakProof\Inspection\ValueDetector;
 $inspector = new Inspector(new KeyDetector(['password', 'access_token']), new ValueDetector);
 $checks = 0;
 $check = static function (bool $result) use (&$checks): void {
-    ++$checks;
+    $checks++;
     if (! $result) {
         fwrite(STDERR, "FAILED core check {$checks}\n");
         exit(1);
