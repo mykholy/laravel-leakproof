@@ -111,7 +111,7 @@ final class ValueDetector
 
         if ($enabledRules !== null) {
             foreach ($enabledRules as $rule) {
-                if (! is_string($rule) || ! in_array($rule, $allowed, true)) {
+                if (! in_array($rule, $allowed, true)) {
                     throw new InvalidArgumentException('Unknown LeakProof value detection rule.');
                 }
             }
