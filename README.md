@@ -20,11 +20,23 @@
   <a href="https://packagist.org/packages/mykholy/laravel-leakproof">Packagist</a>
 </p>
 
-**Laravel LeakProof** is a lightweight Laravel security testing package for spotting accidentally exposed sensitive fields in serialized **JSON API responses**. It inspects the actual response your tests receive, including nested arrays and Laravel API Resources.
+**Laravel LeakProof** is a lightweight Laravel security testing package for spotting accidentally exposed sensitive fields in serialized **JSON API responses**. It inspects the actual response your tests receive, including nested arrays and Laravel API Resources. Built-in detection now covers selected **AI API key** formats from OpenAI, Anthropic, Gemini/Google, Hugging Face, Groq, Replicate, Pinecone, Perplexity, OpenRouter, NVIDIA NGC, and Tavily, plus provider-specific sensitive field names.
 
 A passing endpoint test does not necessarily mean its response is safe: changes in serialization may accidentally expose password hashes, API tokens, client secrets or recovery codes. LeakProof reports the **JSON path and detection rule**, not the credential value.
 
 > **Scope:** LeakProof detects selected sensitive key names and high-confidence secret patterns. It is not an authorization system, a static scanner, a response sanitizer, or a substitute for Laravel policies and model `$hidden`.
+
+## AI API key scanning
+
+Catch leaked **OpenAI API keys**, **Anthropic API keys**, **Google/Gemini API keys**, **Hugging Face tokens**, **Groq keys**, and other recognizable secrets inside API response strings. Named fields such as `azureOpenaiApiKey`, `cohereApiKey`, `mistralApiKey`, `deepseekApiKey`, and `openrouterApiKey` are detected even when their value format has no safe signature.
+
+Detection never contacts AI providers and never logs a matched credential. For provider support, rule IDs, exclusions, limitations, and configuration see **[AI API key detection guide](docs/AI-SECRET-DETECTION.md)**.
+
+```php
+// This nested JSON response would fail assertNoSensitiveData():
+// { "data": { "settings": { "openaiApiKey": "synthetic-example" } } }
+$this->assertNoSensitiveData($this->getJson('/api/ai/settings'));
+```
 
 ## What it detects
 
@@ -143,7 +155,7 @@ if (! $report->passed()) {
 - JSON input limit: default 2 MiB.
 - Exceeding limits makes an inspection **inconclusive**, not successful.
 - Only known structural/credential names are displayed in diagnostic paths; all other object keys are replaced by `"<dynamic-key>"` to avoid exposing identifiers or personal information.
-- High-confidence value patterns include private-key headers and selected live credential prefixes.
+- High-confidence value patterns include major AI-provider API keys, private-key headers, and selected live credential prefixes. Configure a subset with `value_rules` (see the AI detection guide).
 - This does **not** prove an API is private. Unknown secret formats, encoded values, and authorization mistakes may be missed.
 - Personal information such as emails, phone numbers, IDs or addresses is **not automatically treated as a secret**; enforce authorization and data minimization separately.
 
@@ -159,7 +171,7 @@ composer format-check
 composer smoke
 ```
 
-CI checks supported PHP/Laravel combinations. See [Contributing](CONTRIBUTING.md), [Security policy](SECURITY.md), [Changelog](CHANGELOG.md), and [GitHub Issues](https://github.com/mykholy/laravel-leakproof/issues).
+CI validates supported PHP/Laravel combinations and runs a fresh Laravel application installation smoke test. Use `composer benchmark` for synthetic local performance measurements. See [Contributing](CONTRIBUTING.md), [Security policy](SECURITY.md), [Changelog](CHANGELOG.md), and [GitHub Issues](https://github.com/mykholy/laravel-leakproof/issues).
 
 ## License
 

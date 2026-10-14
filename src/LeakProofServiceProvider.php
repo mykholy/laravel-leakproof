@@ -22,7 +22,9 @@ final class LeakProofServiceProvider extends ServiceProvider
 
             return new LeakProof(new Inspector(
                 new KeyDetector((array) $config->get('leakproof.sensitive_keys', [])),
-                new ValueDetector,
+                new ValueDetector($config->get('leakproof.value_rules') === null
+                    ? null
+                    : (array) $config->get('leakproof.value_rules')),
                 (bool) $config->get('leakproof.scan_secret_values', true),
                 (int) $config->get('leakproof.max_depth', 32),
                 (int) $config->get('leakproof.max_nodes', 50000),

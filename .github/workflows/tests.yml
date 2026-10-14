@@ -37,18 +37,36 @@ jobs:
         run: composer require --dev "laravel/framework:${{ matrix.laravel }}" --no-interaction --no-progress --no-update
       - name: Install dependencies
         run: composer update --prefer-dist --no-interaction --no-progress --with-all-dependencies
+      - name: Audit production dependencies
+        run: composer audit --locked --no-dev
       - name: Unit and integration tests
         run: composer test
       - name: Standalone core smoke checks
         run: composer smoke
+      - name: Synthetic benchmark (sanity check)
+        run: php tools/benchmark.php 20
       - name: Static analysis
         run: composer analyse
       - name: Code style
         run: composer format-check
 
+  consumer:
+    needs: test
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.4'
+          extensions: dom, json, mbstring, sqlite3
+          coverage: none
+          tools: composer:v2
+      - name: Install and exercise package in a fresh Laravel 13 application
+        run: bash tools/consumer-smoke.sh
+
   release:
     if: github.event_name == 'push' && startsWith(github.ref, 'refs/heads/release/v')
-    needs: test
+    needs: [test, consumer]
     runs-on: ubuntu-latest
     permissions:
       contents: write
