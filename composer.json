@@ -1,6 +1,6 @@
 {
   "name": "mykholy/laravel-leakproof",
-  "description": "Detect sensitive data leaks in Laravel JSON API responses with PHPUnit assertions, a JSON fixture scanner, and optional middleware.",
+  "description": "Detect sensitive data and AI API key leaks in Laravel JSON responses with PHPUnit assertions, CLI scanner and optional middleware.",
   "type": "library",
   "license": "MIT",
   "keywords": [
@@ -15,7 +15,14 @@
     "phpunit",
     "api-testing",
     "privacy",
-    "php"
+    "php",
+    "ai-security",
+    "llm",
+    "openai",
+    "anthropic",
+    "gemini",
+    "api-key-detection",
+    "secret-scanning"
   ],
   "homepage": "https://github.com/mykholy/laravel-leakproof",
   "authors": [
@@ -63,7 +70,8 @@
     "analyse": "phpstan analyse --no-progress",
     "format": "pint",
     "format-check": "pint --test",
-    "smoke": "@php tools/smoke.php"
+    "smoke": "@php tools/smoke.php",
+    "benchmark": "@php tools/benchmark.php"
   },
   "minimum-stability": "stable",
   "prefer-stable": true
