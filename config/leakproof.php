@@ -13,8 +13,22 @@ return [
         'authorization', 'cookie', 'cvv', 'cvc', 'card_cvv',
         'credit_card_number', 'otp_secret', 'totp_secret', 'two_factor_secret',
         'two_factor_recovery_codes', 'recovery_codes',
+        // AI APIs and inference providers (field-name detection, regardless of token format).
+        'openai_api_key', 'anthropic_api_key', 'gemini_api_key',
+        'google_ai_api_key', 'google_api_key', 'vertex_ai_api_key',
+        'azure_openai_api_key', 'azure_ai_api_key',
+        'huggingface_token', 'hugging_face_token', 'huggingface_api_key',
+        'groq_api_key', 'replicate_api_token', 'replicate_api_key',
+        'cohere_api_key', 'mistral_api_key', 'deepseek_api_key',
+        'perplexity_api_key', 'pinecone_api_key', 'together_api_key',
+        'fireworks_api_key', 'openrouter_api_key', 'elevenlabs_api_key',
+        'bedrock_secret_access_key', 'aws_secret_access_key',
+        'ai_api_key', 'llm_api_key', 'inference_api_key',
     ],
     'scan_secret_values' => true,
+    // Null enables all built-in value rules. Use an explicit list of rule IDs
+    // to enable a subset; [] disables all value rules (not sensitive key detection).
+    'value_rules' => null,
     // Named route => exact JSON paths. Wildcard matches one segment.
     'allowed_paths' => [],
     'max_depth' => 32,
