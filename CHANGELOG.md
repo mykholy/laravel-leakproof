@@ -4,6 +4,7 @@ All notable user-facing changes are recorded here. Releases are listed newest fi
 
 ## Unreleased
 
+- Extend the PHP/Laravel CI matrix to test PHP 8.5 with Laravel 12 and 13.
 - Update GitHub Actions checkout from v4 to v7 after the compatibility test matrix passed.
 - Correct the chronological release notes and remove an invalid Dependabot label configuration.
 
