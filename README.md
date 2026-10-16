@@ -16,6 +16,7 @@
   <a href="#quick-start">Quick start</a> ·
   <a href="#what-it-detects">Detection rules</a> ·
   <a href="#fixture-scanning">CLI scanner</a> ·
+  <a href="docs/DEVELOPER_GUIDE.md">Developer guide</a> ·
   <a href="#optional-staging-middleware">HTTP middleware</a> ·
   <a href="https://packagist.org/packages/mykholy/laravel-leakproof">Packagist</a>
 </p>
